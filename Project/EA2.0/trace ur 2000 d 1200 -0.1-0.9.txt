@@ -1,0 +1,1 @@
+generation: 1960  Average length: 371838.3701204578  Longest length:  372362.9030186797  shortest length: 371175.6712284978
