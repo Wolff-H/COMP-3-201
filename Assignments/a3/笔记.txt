@@ -1,0 +1,15 @@
+/*
+    累计概率函数a
+    共选择λ个作为子代
+*/
+
+current = 1
+i = 1
+r = random(0,1/λ)                 # 0,0.20 -> 0.11
+
+while( current<=λ )               # 
+    while( r<=a(i) )              # 0.11<=a(1)
+        交配池[current]=父代[i]   # pool[1]=ppl[1]
+        r = r + 1/λ               # r = 0.11 + 0.20 = 0.31
+        current = current + 1     # current = 2
+    i=i+1

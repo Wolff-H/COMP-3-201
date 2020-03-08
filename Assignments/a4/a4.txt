@@ -1,0 +1,118 @@
+/*
+    CS3201    Assignment 4
+    Tingrui Hu    201513025
+*/
+/**************************************************************************************************/
+
+1.
+    A. Selection probabilities.
+        ∑f = f(x1) + f(x2) + f(x3)
+           = 1 + 4 + 9
+           = 14
+        P(x1) = 1/14
+        P(x2) = 4/14
+        P(x3) = 9/14
+
+    B. Selection probabilities for transposed fitness function f'(x).
+        ∑f = f(x1) + f(x2) + f(x3)
+           = 11 + 14 + 19
+           = 44
+        P(x1) = 11/44
+        P(x2) = 14/44
+        P(x3) = 19/44
+
+
+2.
+    A. Expectation of number of copies of best individuals in mating pool.
+        E = (157 / 76 x 100) x 100
+          ≈ 2
+
+    B. Propability that there's no copies of the best using roulette wheel algorithm.
+        P = ( 1 - (157 / 76 x 100) )^100
+          = 0.124
+
+    C. Propability that there's no copies of the best using multi-pointer algorithm.
+        P = 0
+        ∵   the start pointer is always located between cumulative_prob=0 and cumulative_prob=76,
+            whereas the best one ranges from 0 to 157.
+
+
+3.
+    A. Representation:
+        a 2d-array
+
+        in schema:
+            y1|    x1, x2, x3, ..., xn
+            y2|
+            y3|
+            . |
+            . |
+            . |
+            yn|
+
+        in code:
+            layout =
+                [
+                    [x1,x2,x3,...,xn]
+                    [x1,x2,x3,...,xn]
+                    [x1,x2,x3,...,xn]
+                    ...
+                ]
+
+        use numpy.split(matrix) to generate blocks
+
+    B. Fitness
+
+        def fitness(layout) :
+
+            span = range(size)
+            fail_row = 0
+            fail_col = 0
+
+            for row in layout :
+                for num in span :
+                    if( row.count(num) != 1 ) :
+                        fail_row = fail_row + 1
+                        break
+            for col in numpy.transpose(layout) :
+                for num in span :
+                    if( col.count(num) != 1 ) :
+                        fail_col = fail_col + 1
+                        break
+            for block in toBlocks(layout) :
+                for num in span :
+                    if( col.count(num) != 1 ) :
+                        fail_blk = fail_blk + 1
+                        break
+
+            fitness = size*3 - fail_row - fail_col - fail_blk
+            return fitness
+
+    C. Mutation
+        def mutate(layout) :
+            mutant = layout.copy()
+            x = random.randint(0,size)
+            y = random.randint(0,size)
+            mutant[y][x] = random.randint(0,size)
+            return mutant
+
+    D. Crossover
+        def crossover(layout1,layout2) :
+
+            offspring1 = []
+            offspring2 = []
+
+            offspring1 = numpy.vstack(   numpy.split(layout1, 2, axis=0)[0], numpy.split(layout2, 2, axis=0)[1]   )
+            offspring1 = numpy.vstack(   numpy.split(layout1, 2, axis=0)[1], numpy.split(layout2, 2, axis=0)[0]   )
+
+            return offspring1, offspring2
+
+
+
+
+
+
+
+
+
+//

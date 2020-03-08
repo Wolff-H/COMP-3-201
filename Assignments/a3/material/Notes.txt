@@ -1,0 +1,8 @@
+Parent Selection:
+    multi-pointer
+    tournament(不放回取样)
+    random uniform
+Survivor Selection:
+    μ+λ
+    replacement
+    random uniform

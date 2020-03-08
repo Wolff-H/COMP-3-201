@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <!-- using libraries ////////////////////////////////////////////////////////////////////////-->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <script src="trace.js" charset="utf-8"></script>
+
+</head>
+
+<body>
+    data are stored in trace.js file with json format. <br>
+    <div id="figure1" style="width: 900px; height: 500px; display: inline-block;"></div>
+    <div id="figure2" style="width: 900px; height: 500px; display: inline-block;"></div>
+    <div id="figure3" style="width: 900px; height: 500px; display: inline-block;"></div>
+    <div id="figure4" style="width: 900px; height: 500px; display: inline-block;"></div>
+
+    <div style="font-family: consolas;">
+        <h3>experiment statistics(mean[1], std[1], aes[1], sr[n]): </h3>
+        &emsp;&emsp;multi_miu: <span id="mm"></span> <br>
+        &emsp;&emsp;multi_rep: <span id="mr"></span> <br>
+        &emsp;&emsp;tourn_miu: <span id="tm"></span> <br>
+        &emsp;&emsp;tourn_rep: <span id="tr"></span> <br>
+    </div>
+
+    <div class="">
+        <h3>comment</h3>
+        <p>
+            &emsp;&emsp;Among the four experiments using different algorithms, the mean values are quite similar. i.e. each algorithm is good enough to converge to the optimal in 50 generations. <br>
+            &emsp;&emsp;Also, the standard variations are very closed. The diversity of a population may not primarily be affected by those four selection combinations. <br>
+            &emsp;&emsp;The AES between multi-pointer selection and tournament selection widely differs. MPS finds a solution in 40 gens or more whereas tournament finds in around 20 gens. Obviously tournament method converges more efficiently. <br>
+            &emsp;&emsp; (μ+λ) could be slightly better than replacement selection, as (μ+λ) found two successful solutions around 40 gens in the experiment.
+        </p>
+        <br><br><br><br><br>
+    </div>
+</body>
+
+<script type="text/javascript">
+
+    var xs = [];
+    var ys = [];
+
+    for(let i=1; i<=50; i++)
+    {
+        xs.push(i);
+    }
+
+
+
+
+    ex1 = [];
+    ex2 = [];
+    ex3 = [];
+    ex4 = [];
+
+    for(let trial of multi_miu)
+    {
+        ex1.push
+        (
+            {
+                x: xs,
+                y: trial[1],
+                mode: 'lines',
+            }
+        );
+    }
+    for(let trial of multi_rep)
+    {
+        ex2.push
+        (
+            {
+                x: xs,
+                y: trial[1],
+                mode: 'lines',
+            }
+        );
+    }
+    for(let trial of tourn_miu)
+    {
+        ex3.push
+        (
+            {
+                x: xs,
+                y: trial[1],
+                mode: 'lines',
+            }
+        );
+    }
+    for(let trial of tourn_rep)
+    {
+        ex4.push
+        (
+            {
+                x: xs,
+                y: trial[1],
+                mode: 'lines',
+            }
+        );
+    }
+
+    var layout1 =
+        {
+            title: 'multi_miu',
+            xaxis: {   title: 'generations'   },
+            yaxis: {   title: 'best fitness'   },
+        };
+    var layout2 =
+        {
+            title: 'multi_rep',
+            xaxis: {   title: 'generations'   },
+            yaxis: {   title: 'best fitness'   },
+        };
+    var layout3 =
+        {
+            title: 'tourn_miu',
+            xaxis: {   title: 'generations'   },
+            yaxis: {   title: 'best fitness'   },
+        };
+    var layout4 =
+        {
+            title: 'tourn_rep',
+            xaxis: {   title: 'generations'   },
+            yaxis: {   title: 'best fitness'   },
+        };
+
+    Plotly.newPlot(   $("#figure1")[0], ex1, layout1, {responsive: true}   );
+    Plotly.newPlot(   $("#figure2")[0], ex2, layout2, {responsive: true}   );
+    Plotly.newPlot(   $("#figure3")[0], ex3, layout3, {responsive: true}   );
+    Plotly.newPlot(   $("#figure4")[0], ex4, layout4, {responsive: true}   );
+
+    $("#mm").text(multi_miu_stat.toString());
+    $("#mr").text(multi_rep_stat.toString());
+    $("#tm").text(tourn_miu_stat.toString());
+    $("#tr").text(tourn_rep_stat.toString());
+
+</script>
+
+
+</html>
